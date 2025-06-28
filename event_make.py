@@ -14,7 +14,8 @@ st.set_page_config(
 
 ##CSVについて
 
-CSV_FILE = 'event_data.csv'
+DATA_DIR = "data"
+CSV_FILE = os.path.join(DATA_DIR,'event_data.csv')
 
 # CSVの読み込み
 def load_data():
