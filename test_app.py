@@ -18,7 +18,7 @@ with st.sidebar:
 # ページ表示の分岐
 if st.session_state.page == "home":
     st.title("🏠 ホーム画面")
-    st.write("ここがトップ画面だぜ！")
+    st.write("ここがトップ画面")
 
 elif st.session_state.page == "register":
     st.title("📝 新規登録")
