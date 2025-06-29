@@ -35,7 +35,7 @@ def show_org_detail():
 			st.success(st.session_state.success_message)
 			del st.session_state.success_message  # ← 1回表示したら削除！
 
-	if company['マイページURL'].strip() != '':
+	if pd.notna(company['マイページURL']) and company['マイページURL'].strip() != '':
 
 		st.markdown(f"""
 		<div style="
