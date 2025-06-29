@@ -35,7 +35,7 @@ def show_org_edit():
 	id = st.text_input('ID（任意）', key='id', value=company['ID'])
 	password = st.text_input('Password（任意）', key='password', value=company['パスワード'])
 	
-	col1, col2 = st.columns(2)
+	col1, col2, col3 = st.columns(3)
 	with col1:
 		if st.button('更新'):
 				if not name:
@@ -56,7 +56,22 @@ def show_org_edit():
 							'パスワード': password,
 					}
 					st.session_state.page = "org_detail"
-
 	with col2:
+		if st.button("削除"):
+			# 削除前の確認
+			company_name = df.loc[index, '企業名']
+			
+			# 選択された行を削除
+			df = df.drop(index).reset_index(drop=True)
+			save_data(df)
+
+			st.success(f'「{company_name}」の企業情報を削除しました。')
+
+			# 選択状態をリセット
+			st.session_state.pop("selected_index", None)
+			st.session_state.pop("selected_company", None)
+			st.session_state.page = "dashboard"
+
+	with col3:
 		if st.button("戻る"):
 			st.session_state.page = "org_detail"
