@@ -58,12 +58,15 @@ def show_event_create():
 
     with col3:
         if st.button('作成'):
-            new_row = pd.DataFrame([[name, date, S_time, E_time, bikou]], columns=data.columns)
-            data = pd.concat([data, new_row], ignore_index=True)
-            save_data(data)
-            st.success(f"{name} を登録しました！")
-            st.session_state.page = "org_detail"
-            st.rerun()
+            if not name:
+                st.error('企業名は必須項目です')
+            else:
+                new_row = pd.DataFrame([[name, date, S_time, E_time, bikou]], columns=data.columns)
+                data = pd.concat([data, new_row], ignore_index=True)
+                save_data(data)
+                st.success(f"{name} を登録しました！")
+                st.session_state.page = "org_detail"
+                st.rerun()
  
     with col4:
         if st.button('戻る'):
