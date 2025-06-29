@@ -3,6 +3,7 @@ import pandas as pd
 import datetime
 import os
 from organization_create import show_org_create
+from  organization_detail import show_org_detail
 
 
 ##CSVについて
@@ -21,10 +22,8 @@ def load_data():
 # CSVへの保存
 def save_data(df):
     df.to_csv(CSV_FILE, index=False)
-
     
 df = load_data()
-
 ##CSVについてここまで
 
 
@@ -35,6 +34,8 @@ if "page" not in st.session_state:
 #表示画面の切り替え
 if st.session_state.page == "org_create":
 	show_org_create()
+elif st.session_state.page == "org_detail":
+     show_org_detail()
 else:
     # トップ画面
     st.title("就活支援アプリへようこそ！")
@@ -46,9 +47,12 @@ else:
     if st.button("企業作成画面へ"):
         st.session_state.page = "org_create"
 
-    for i in range(len(df)):
-     if st.button(df.iloc[i]['企業名']):
-          st.write("企業名:", df.iloc[i]['企業名'],"のページに行きたい")
+    for i, row in df.iterrows():
+        with st.expander(f"{row['企業名']}"):
+
+            if st.button(f"詳細を見る", key=f"view_{i}"):
+                st.session_state.selected_company = row.to_dict()
+                st.session_state.page = "org_detail"
          
 
 
