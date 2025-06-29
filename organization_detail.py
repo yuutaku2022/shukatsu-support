@@ -3,8 +3,8 @@ import pandas as pd
 import os
 def show_org_detail():
 	#csv読み込み
-	DATA_DIR = "data"
-	CSV_FILE = os.path.join(DATA_DIR, f"{ company['企業名'] }.csv")
+	# DATA_DIR = "data"
+	# CSV_FILE = os.path.join(DATA_DIR, f"{company['企業名']}.csv")
 
 	def load_data():
 		if os.path.exists(CSV_FILE):
@@ -12,8 +12,8 @@ def show_org_detail():
 		else:
 			return pd.DataFrame(columns=["name", "date", "S_time", "E_time", "bikou"])
 
-	df = load_data()
-	
+	# df = load_data()
+
 
 	#編集画面を表示
 	if st.button('企業情報の編集'):
