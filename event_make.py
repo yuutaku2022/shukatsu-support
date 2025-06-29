@@ -14,38 +14,31 @@ def show_event_create():
 
     company = st.session_state.get("selected_company")
 
-
-    ##CSVについて
-
     DATA_DIR = "data"
     CSV_FILE = os.path.join(DATA_DIR,'{0}.csv'.format(company['企業名']))
 
-    # CSVの読み込み
     def load_data():
         if os.path.exists(CSV_FILE):
             return pd.read_csv(CSV_FILE)
         else:
             return pd.DataFrame(columns=["name", "date", "S_time", "E_time", "bikou"])
 
-    # CSVへの保存
     def save_data(df):
         df.to_csv(CSV_FILE, index=False)
 
-        
     data = load_data()
 
-    ##CSVについてここまで
 
     st.title("🎪イベント作成")
     for i in range(2):
-        st.write("") # 空行
+        st.write("") 
 
 
     name = st.text_input('イベント名')
-    st.write("") # 空行
+    st.write("") 
 
     date = st.date_input('日付')
-    st.write("") # 空行
+    st.write("") 
 
 
     col1,col2 = st.columns(2)
@@ -53,19 +46,15 @@ def show_event_create():
         S_time = st.time_input('開始時刻')
     with col2:
         E_time = st.time_input('終了時刻')
-    st.write("") # 空行
-
+    st.write("") 
 
     bikou = st.text_area("備考（持ち物など）")
 
-
     for i in range(5):
-        st.write("") # 空行
+        st.write("") 
 
 
     col3, col4 = st.columns(2)
-
-
 
     with col3:
         if st.button('作成'):
@@ -75,10 +64,7 @@ def show_event_create():
             st.success(f"{name} を登録しました！")
             st.session_state.page = "org_detail"
             st.rerun()
-
-
-
-        
+ 
     with col4:
         if st.button('戻る'):
             st.session_state.page = "org_detail"

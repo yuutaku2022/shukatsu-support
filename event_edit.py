@@ -1,44 +1,47 @@
-import streamlit as st
-import pandas as pd
-import datetime 
-import os
-
-# Streamlitページの基本的な設定
-st.set_page_config(
-    page_title="イベント編集",
-    page_icon="✍️",
-    layout="centered",
-    initial_sidebar_state="expanded",
-)
-
-## CSVファイルの読み書きに関する設定と関数
-
-# dataフォルダの中にevent_data.csvを置く前提
-DATA_DIR = "data"
-CSV_FILE = os.path.join(DATA_DIR, 'event_data.csv')
-
-# CSVファイルを読み込む関数
-def load_data():
-    # dataフォルダがなければ作成
-    os.makedirs(DATA_DIR, exist_ok=True) 
-    
-    if os.path.exists(CSV_FILE):
-        # CSVファイルが存在すれば読み込む
-        df = pd.read_csv(CSV_FILE)
-        return df 
-    else:
-        # 存在しなければ空のデータフレームを返す
-        return pd.DataFrame(columns=["name", "date", "S_time", "E_time", "bikou"])
-
-# データフレームをCSVファイルに保存する関数
-def save_data(df):
-    df.to_csv(CSV_FILE, index=False)
-
-
-## イベント編集画面の主要ロジックとUI
-
-# イベント編集画面の表示を担当する関数
 def show_event_edit():
+        
+    import streamlit as st
+    import pandas as pd
+    import datetime 
+    import os
+
+    # Streamlitページの基本的な設定
+    st.set_page_config(
+        page_title="イベント編集",
+        page_icon="✍️",
+        layout="centered",
+        initial_sidebar_state="expanded",
+    )
+
+    ## CSVファイルの読み書きに関する設定と関数
+
+    # dataフォルダの中にevent_data.csvを置く前提
+    DATA_DIR = "data"
+    company = st.session_state.get("selected_company")
+    CSV_FILE = os.path.join(DATA_DIR, '{}.csv'.format(company['企業名']))
+
+    # CSVファイルを読み込む関数
+    def load_data():
+        # dataフォルダがなければ作成
+        os.makedirs(DATA_DIR, exist_ok=True) 
+        
+        if os.path.exists(CSV_FILE):
+            # CSVファイルが存在すれば読み込む
+            df = pd.read_csv(CSV_FILE)
+            return df 
+        else:
+            # 存在しなければ空のデータフレームを返す
+            return pd.DataFrame(columns=["name", "date", "S_time", "E_time", "bikou"])
+
+    # データフレームをCSVファイルに保存する関数
+    def save_data(df):
+        df.to_csv(CSV_FILE, index=False)
+
+
+    ## イベント編集画面の主要ロジックとUI
+
+    # イベント編集画面の表示を担当する関数
+
     st.title("✍️イベント編集")
 
     # st.session_stateから編集対象のイベントデータと現在の企業名を取得
@@ -94,11 +97,10 @@ def show_event_edit():
                 st.success(f"「{name}」の情報を更新しました！") 
                 
                 # 更新後、企業詳細画面に戻る
-                st.session_state.page = "company_detail"
+                st.session_state.page = "org_detail"
                 st.rerun() # Streamlitアプリを再実行してページを遷移
             else:
                 st.error("編集対象のイベントが見つかりませんでした。データが変更された可能性があります。")
-
 
     with col4:
         if st.button('削除'):
@@ -112,7 +114,7 @@ def show_event_edit():
                 save_data(data) # 新しいデータフレームをCSVファイルに保存
                 st.success(f"「{original_name}」を削除しました。")
                 
-                st.session_state.page = "company_detail"
+                st.session_state.page = "org_detail"
                 st.rerun() #再実行してページを遷移
             else:
                 st.error("削除対象のイベントが見つかりませんでした。")
@@ -120,6 +122,6 @@ def show_event_edit():
 
     with col5:
         if st.button('企業詳細に戻る'):
-            st.session_state.page = "company_detail" # 企業詳細画面に戻る
+            st.session_state.page = "org_detail"
             st.rerun() # Streamlitアプリを再実行してページを遷移
 

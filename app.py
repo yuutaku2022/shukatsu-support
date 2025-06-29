@@ -8,6 +8,8 @@ from organization_detail import show_org_detail
 from event_make import show_event_create
 from organization_edit import show_org_edit
 from login import login
+from OK import show_OK
+from event_edit import show_event_edit
 
 #初期ページ設定
 if "page" not in st.session_state:
@@ -24,5 +26,9 @@ elif st.session_state.page == "dashboard":
 	show_dashboard()
 elif st.session_state.page == "org_edit":
 	show_org_edit()
+elif st.session_state.page == "event_edit":
+	show_event_edit()
+elif st.session_state.page == "OK":
+	show_OK()
 else:
 	login()

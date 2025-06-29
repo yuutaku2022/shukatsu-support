@@ -63,29 +63,34 @@ def show_org_detail():
 		</div>
 		""", unsafe_allow_html=True)
 
-	today = datetime.date.today()
+	today = datetime.datetime.now()
 
 	st.subheader('予定されたイベント')
+
 	if st.button('イベントを追加'):
 		st.session_state.page = "event_make"
-	
+
 	for i, row in df.iterrows():
-		selected_date = datetime.datetime.strptime(row['date'], "%Y-%m-%d").date()
+		# 日時の合成： '2024-07-01' + '15:00:00' → datetime型へ
+		event_end_datetime = datetime.datetime.strptime(
+			f"{row['date']} {row['E_time']}", "%Y-%m-%d %H:%M:%S"
+		)
 
-		if selected_date >= today:
-			with st.expander(f"{row['date']}：{row['name']}"):
-
+		if event_end_datetime >= today:
+			with st.expander(f"{row['date']} {row['S_time']}：{row['name']}"):
 				if st.button(f"編集する", key=f"view_{i}"):
 					st.session_state.selected_event = row.to_dict()
 					st.session_state.page = "event_edit"
-	
 
 	st.subheader('過去のイベント')
-	for i, row in df.iterrows():
-		selected_date = datetime.datetime.strptime(row['date'], "%Y-%m-%d").date()
-		if selected_date < today:
-			st.text(f"{row['date']}：{row['name']}")
 
+	for i, row in df.iterrows():
+		event_end_datetime = datetime.datetime.strptime(
+			f"{row['date']} {row['E_time']}", "%Y-%m-%d %H:%M:%S"
+		)
+
+		if event_end_datetime < today:
+			st.text(f"{row['date']}：{row['name']}")
 
 
 	if st.button('戻る'):

@@ -13,7 +13,9 @@ def login():
         if st.button("ログイン"):
             with open(LOGIN_FILE, "w") as f:
                 f.write(Password)
-            st.rerun()
+
+            st.session_state.page = "OK"
+
 
 
     else:
