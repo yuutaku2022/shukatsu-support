@@ -80,27 +80,35 @@ def show_event_edit():
 
     with col3:
         if st.button('更新'):
-            # 編集前の元のイベント名を使って、CSVファイルから該当するイベントの行を特定
-            original_name = selected_event['name'] 
+            
+                if not name:
+                        st.error('イベント名は必須項目です')
+                else:
 
-            # CSVデータの中から、original_nameと一致する行のインデックスを探す
-            match_index = data[data['name'] == original_name].index
+                    # 編集前の元のイベント名を使って、CSVファイルから該当するイベントの行を特定
+                    original_name = selected_event['name'] 
 
-            if not match_index.empty: # 該当するイベントが見つかった場合のみ更新
-                data.loc[match_index[0], 'name'] = name
-                data.loc[match_index[0], 'date'] = date
-                data.loc[match_index[0], 'S_time'] = S_time
-                data.loc[match_index[0], 'E_time'] = E_time
-                data.loc[match_index[0], 'bikou'] = bikou
+
+            
+
+                    # CSVデータの中から、original_nameと一致する行のインデックスを探す
+                    match_index = data[data['name'] == original_name].index
+
+                    if not match_index.empty: # 該当するイベントが見つかった場合のみ更新
+                        data.loc[match_index[0], 'name'] = name
+                        data.loc[match_index[0], 'date'] = date
+                        data.loc[match_index[0], 'S_time'] = S_time
+                        data.loc[match_index[0], 'E_time'] = E_time
+                        data.loc[match_index[0], 'bikou'] = bikou
                 
-                save_data(data) # 更新されたデータフレームをCSVファイルに保存
-                st.success(f"「{name}」の情報を更新しました！") 
+                        save_data(data) # 更新されたデータフレームをCSVファイルに保存
+                        st.success(f"「{name}」の情報を更新しました！") 
                 
-                # 更新後、企業詳細画面に戻る
-                st.session_state.page = "org_detail"
-                st.rerun() # Streamlitアプリを再実行してページを遷移
-            else:
-                st.error("編集対象のイベントが見つかりませんでした。データが変更された可能性があります。")
+                        # 更新後、企業詳細画面に戻る
+                        st.session_state.page = "org_detail"
+                        st.rerun() # Streamlitアプリを再実行してページを遷移
+                    else:
+                        st.error("編集対象のイベントが見つかりませんでした。データが変更された可能性があります。")
 
     with col4:
         if st.button('削除'):
