@@ -26,20 +26,26 @@ def show_org_create():
 	mypage_url = st.text_input('マイページURL（任意）', key='mypage_url')
 	id = st.text_input('ID（任意）', key='id')
 	password = st.text_input('Password（任意）', key='password')
+	
+	col1, col2 = st.columns(2)
+	with col1:
+		if st.button('作成'):
+				if not name:
+						st.error('企業名は必須項目です')
+				else:
+						new_entry = {
+								'企業名': name,
+								'マイページURL': mypage_url,
+								'ID': id,
+								'パスワード': password,
+						}
 
-	if st.button('作成'):
-			if not name:
-					st.error('企業名は必須項目です')
-			else:
-					new_entry = {
-							'企業名': name,
-							'マイページURL': mypage_url,
-							'ID': id,
-							'パスワード': password,
-					}
-
-					df = safe_read_csv(CSV_FILE)
-					df = pd.concat([df, pd.DataFrame([new_entry])], ignore_index=True)
-					df.to_csv(CSV_FILE, index=False, encoding='utf-8-sig')
-					
-					st.success('企業情報を保存しました！')
+						df = safe_read_csv(CSV_FILE)
+						df = pd.concat([df, pd.DataFrame([new_entry])], ignore_index=True)
+						df.to_csv(CSV_FILE, index=False, encoding='utf-8-sig')
+						
+						st.session_state.success_message = f'「{name}」の企業情報を保存しました！'
+						st.session_state.page = "dashboard"
+	with col2:
+		if st.button("戻る"):
+			st.session_state.page = "dashboard"
