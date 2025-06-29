@@ -26,16 +26,51 @@ def show_org_detail():
 			st.session_state.page = "dashboard"
 	
 	st.title(f"{company['企業名']}")
-	st.markdown(f'<a href="{company["マイページURL"]}" target="_blank">マイページへ</a>', unsafe_allow_html=True)
-	st.write(f"ID：{company['ID']}")
-	st.write(f"パスワード：{company['パスワード']}")
+
+	if company['マイページURL'].strip() != '':
+
+		st.markdown(f"""
+		<div style="
+				border: 2px solid #4CAF50;
+				border-radius: 10px;
+				padding: 16px;
+				background-color: #f9f9f9;
+				margin-bottom: 20px;
+		">
+			<p>
+				<a href="{company['マイページURL']}" target="_blank" style="
+					display: inline-block;
+					padding: 8px 16px;
+					background-color: #4CAF50;
+					color: white;
+					text-decoration: none;
+					border-radius: 5px;
+					font-weight: bold;
+					">
+					マイページへ
+				</a>
+				</p>
+			<p>ID：{company['ID']}</p>
+			<p>パスワード：{company['パスワード']}</p>
+		</div>
+		""", unsafe_allow_html=True)
 
 	st.subheader('予定されたイベント')
 	if st.button('イベントを追加'):
+		st.session_state.selected_company_name = company['企業名']
 		st.session_state.page = "event_make"
 	
+	# for i, row in df.iterrows():
+	# 	with st.expander(f"{row['date']}：{row['name']}"):
 
+	# 		if st.button(f"編集する", key=f"view_{i}"):
+	# 			st.session_state.selected_event = row.to_dict()
+	# 			st.session_state.page = "event_edit"
 	
+
+	st.subheader('過去のイベント')
+	# for i, row in df.iterrows():
+	# 	st.text(f"{row['date']}：{row['name']}")
 
 
 
