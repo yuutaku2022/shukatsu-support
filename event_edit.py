@@ -54,7 +54,6 @@ def show_event_edit():
             st.rerun() 
         st.stop() # これ以降のコードは実行せず、処理を停止
 
-    # 企業名とイベント名をサブタイトルに表示
     st.subheader(f"企業「{selected_company['企業名']}」のイベント「{selected_event['name']}」を編集")
 
     # 既存のイベントデータで入力フォームを初期化
@@ -114,7 +113,7 @@ def show_event_edit():
                 st.success(f"「{original_name}」を削除しました。")
                 
                 st.session_state.page = "company_detail"
-                st.rerun() # Streamlitアプリを再実行してページを遷移
+                st.rerun() #再実行してページを遷移
             else:
                 st.error("削除対象のイベントが見つかりませんでした。")
 
