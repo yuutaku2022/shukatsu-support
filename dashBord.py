@@ -26,6 +26,11 @@ def show_dashboard():
     # トップ画面
     st.title("就活支援アプリへようこそ！")
 
+    # 成功メッセージの表示
+    if "success_message" in st.session_state:
+        st.success(st.session_state.success_message)
+        del st.session_state.success_message  # ← 1回表示したら削除
+
     if "success_message" in st.session_state:
             st.success(st.session_state.success_message)
             del st.session_state.success_message
@@ -38,6 +43,7 @@ def show_dashboard():
 
             if st.button(f"詳細を見る", key=f"view_{i}"):
                 st.session_state.selected_company = row.to_dict()
+                st.session_state.selected_index = i #インデックスの保存
                 st.session_state.page = "org_detail"
          
 
