@@ -12,11 +12,13 @@ def show_event_create():
         initial_sidebar_state="expanded",
     )
 
+    company = st.session_state.get("selected_company")
+
 
     ##CSVについて
 
     DATA_DIR = "data"
-    CSV_FILE = os.path.join(DATA_DIR,'{0}.csv'.format(st.session_state.selected_company_name))
+    CSV_FILE = os.path.join(DATA_DIR,'{0}.csv'.format(company['企業名']))
 
     # CSVの読み込み
     def load_data():
@@ -71,10 +73,15 @@ def show_event_create():
             data = pd.concat([data, new_row], ignore_index=True)
             save_data(data)
             st.success(f"{name} を登録しました！")
+            st.session_state.page = "org_detail"
+            st.rerun()
+
+
 
         
     with col4:
         if st.button('戻る'):
-            st.session_state.page = "company_detail" # 企業詳細画面に戻る
+            st.session_state.page = "org_detail"
+            st.rerun()
 
 
