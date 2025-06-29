@@ -1,4 +1,4 @@
-def show_event_create(com_name):
+def show_event_create():
     import streamlit as st
     import pandas as pd
     import datetime
@@ -16,7 +16,7 @@ def show_event_create(com_name):
     ##CSVについて
 
     DATA_DIR = "data"
-    CSV_FILE = os.path.join(DATA_DIR,'{0}.csv'.format(com_name))
+    CSV_FILE = os.path.join(DATA_DIR,'{0}.csv'.format(st.session_state.selected_company_name))
 
     # CSVの読み込み
     def load_data():
@@ -35,9 +35,6 @@ def show_event_create(com_name):
     ##CSVについてここまで
 
     st.title("🎪イベント作成")
-
-
-
     for i in range(2):
         st.write("") # 空行
 
@@ -74,13 +71,10 @@ def show_event_create(com_name):
             data = pd.concat([data, new_row], ignore_index=True)
             save_data(data)
             st.success(f"{name} を登録しました！")
-            ##企業トップのページに戻るようにしてください
-            st.session_state.page = "dashboard"
 
         
     with col4:
         if st.button('戻る'):
-            ##企業トップのページに戻るようにしてください
-            st.session_state.page = "dashboard"
+            st.session_state.page = "company_detail" # 企業詳細画面に戻る
 
 
